@@ -27,7 +27,7 @@ Whatever the reason, we can make use of this nice design choice to run and play 
 
 1. Download the latest .exe from the [Releases](https://github.com/derrod/rktlnch/releases/latest)
 2. Create a shortcut, add it to Steam, whatever
-3. Set the parameters to `--launch <Epic App Name>`
+3. Set the command line parameters to `--launch <Epic App Name>`
 4. ???
 5. Profit!
 
@@ -55,9 +55,10 @@ You can get a list of all installed EGS games and their codenames by simply runn
 
 The exe in releases was built using PyInstaller using the following command:
 ```
-> py -3.6 -O -m PyInstaller --onefile src\rktlnch.py
+py -3.6 -O -m PyInstaller --onefile src\rktlnch.py
 ```
 
+Yes I'm still running Python 3.6. Yes I know I should update. Please don't remind me. 
 
 ## What about Linux?
 

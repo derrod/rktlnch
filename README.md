@@ -19,7 +19,7 @@ It's also somehow slower than the new Steam UI, despite Valve's best efforts.
 
 ## How
 
-For some reason the games on the Epic Game Store do not seem to rely on IPC with the game for their online functionality, instead they get launched with an OAuth access token they can use to directly talk to Epic's online services.
+For some reason the games on the Epic Game Store do not seem to rely on IPC with the launcher for their online functionality, instead they get launched with an OAuth(?) access token they can use to directly talk to Epic's online services.
 
 Whatever the reason, we can make use of this nice design choice to run and play games (online) without the EGS Launcher.
 

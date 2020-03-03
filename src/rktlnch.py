@@ -132,7 +132,7 @@ if __name__ == '__main__':
                           f'-epicapp={game_manifest["AppName"]}',
                           '-epicenv=Prod',
                           '-EpicPortal',
-                          f'-epicusername="{auth_data["displayName"]}"',
+                          f'-epicusername={auth_data["displayName"]}',
                           f'-epicuserid={auth_data["account_id"]}',
                           '-epiclocale=en'],
                          cwd=game_manifest['InstallLocation'])

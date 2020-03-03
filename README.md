@@ -50,6 +50,15 @@ optional arguments:
 
 You can get a list of all installed EGS games and their codenames by simply running `rktlnch.exe --list-games` 
 
+## Tested Games
+
+#### Confirmed working:
+ * Diabotical (`Honeycreeper`)
+ * Spellbreak (`Newt`)
+ * Subnautica (`Jaguar`) - not really required for this game since it's singleplayer only
+ * The Jackbox Party Pack (`Feverfew`)
+#### Confirmed **NOT** working
+ * N/A (so far)
 
 ## How 2 EXE
 

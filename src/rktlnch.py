@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     try:
         # read config with auth data
-        print('Reading EGS config... ', end='')
+        print('Reading EGS config... ', end='', flush=True)
         elfs.read_config()
         remember_me_data = elfs.config.get('RememberMe', 'Data')
         re_data = json.loads(b64decode(remember_me_data))[0]
@@ -46,12 +46,11 @@ if __name__ == '__main__':
         print('[OK]')
 
         # read manifests of installed games
-        print('Getting installed games... ', end='')
+        print('Getting installed games... ', end='', flush=True)
         elfs.read_manifests()
         print('[OK]')
     except Exception as e:
-        print('[FAIL]')
-        print('Reading manifests/config failed with:', repr(e))
+        print('[FAIL]\nReading manifests/config failed with:', repr(e))
         exit(1)
 
     if args.list_games:
@@ -66,23 +65,21 @@ if __name__ == '__main__':
 
     # check if we know the game id
     try:
-        print(f'Checking manifest for "{args.app_name}" ', end='')
+        print(f'Checking manifest for "{args.app_name}" ', end='', flush=True)
         game_manifest = elfs.get_manifest(game_name=args.app_name.strip())
         print('[OK]')
     except Exception as e:
-        print('[FAIL]')
-        print(f'Cannot find game manifest for {args.app_name}:', repr(e))
+        print(f'[FAIL]\nCannot find game manifest for {args.app_name}:', repr(e))
         exit(1)
 
     eapi = EPCAPI()
 
     try:
-        print('Logging into EGS... ', end='')
+        print('Logging into EGS... ', end='', flush=True)
         auth_data = eapi.start_session(re_data['Token'])
-        print('[OK]')
-        print(f'Logged in as "{auth_data["displayName"]}"!')
+        print(f'[OK]\nLogged in as "{auth_data["displayName"]}"!')
 
-        print('Saving new refresh token... ', end='')
+        print('Saving new refresh token... ', end='', flush=True)
         # try saving the new refresh token
         re_data['Token'] = auth_data['refresh_token']
         remember_me_data = b64encode(json.dumps([re_data]).encode('utf-8')).decode('utf-8')
@@ -90,12 +87,11 @@ if __name__ == '__main__':
         elfs.save_config()
         print('[OK]')
     except Exception as e:
-        print('[FAIL]')
-        print('Failed to refresh token with:', repr(e))
+        print('[FAIL]\nFailed to refresh token with:', repr(e))
         exit(1)
 
     if not args.skip_version_check:
-        print('Checking game version... ', end='')
+        print('Checking game version... ', end='', flush=True)
         try:
             versions = eapi.get_game_versions()
             installed_ver = game_manifest['AppVersionString']
@@ -103,25 +99,26 @@ if __name__ == '__main__':
             for ver in versions:
                 if ver['catalogItemId'] == game_manifest['CatalogItemId']:
                     if installed_ver != ver['buildVersion']:
-                        print('[FAIL]')
-                        print(f'Game is outdated ({installed_ver} != {ver["buildVersion"]}), '
+                        print(f'[FAIL]\nGame is outdated ({installed_ver} != {ver["buildVersion"]}), '
                               f'please launch EGS and update the game.')
                         exit(0)
             else:
                 print('[OK]')
 
         except Exception as e:
-            print('Could not get game versions:', repr(e))
+            print('[FAIL]\nCould not get game versions:', repr(e))
+            exit(1)
 
     try:
+        print('Getting game oauth token... ', end='', flush=True)
         game_token = eapi.get_game_token()
+        print('[OK]')
     except Exception as e:
-        print('[FAIL]')
-        print('Failed to get game token with:', repr(e))
+        print('[FAIL]\nFailed to get game token with:', repr(e))
         exit(1)
 
     # Launching the game!
-    print('Launching the game... ', end='')
+    print('Launching the game... ', end='', flush=True)
     exe_path = os.path.join(game_manifest['InstallLocation'],
                             game_manifest['LaunchExecutable'])
     try:
@@ -138,8 +135,7 @@ if __name__ == '__main__':
                          cwd=game_manifest['InstallLocation'])
         print('[OK!]')
     except Exception as e:
-        print('[FAIL]')
-        print('Failed to launch game:', repr(e))
+        print('[FAIL]\nFailed to launch game:', repr(e))
         exit(1)
 
     _exit(0)

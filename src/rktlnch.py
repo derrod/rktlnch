@@ -123,6 +123,7 @@ if __name__ == '__main__':
                             game_manifest['LaunchExecutable'])
     try:
         subprocess.Popen([exe_path,
+                          game_manifest.get('LaunchCommand', ''),  # this is gnarly, but works!
                           '-AUTH_LOGIN=unused',
                           f'-AUTH_PASSWORD={game_token["code"]}',
                           '-AUTH_TYPE=exchangecode',

@@ -41,12 +41,13 @@ You can get a list of all installed EGS games and their codenames by simply runn
 #### Confirmed working:
  * Dauntless (`Jackal`)
  * Diabotical (`Honeycreeper`)
+ * Fortnite (`Fortnite`)
  * Spellbreak (`Newt`)
  * Subnautica (`Jaguar`) - not really required for this game since it's singleplayer only
  * The Cycle (`AzaleaAlpha`)
  * The Jackbox Party Pack (`Feverfew`)
 #### Confirmed **NOT** working
- * Fortnite (`Fortnite`) - requires additional obfuscated token that I cba to reverse-engineer
+ * N/A
 
 ## Why
 

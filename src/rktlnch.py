@@ -5,6 +5,7 @@ import argparse
 import subprocess
 import json
 import os
+import shlex
 from sys import exit as _exit
 
 from base64 import b64decode, b64encode
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     parser.add_argument('--skip-version-check', dest='skip_version_check', action='store_true',
                         default=False, help='Skip version check')
 
-    args = parser.parse_args()
+    args, extra = parser.parse_known_args()
 
     elfs = EPCLFS()
 
@@ -117,23 +118,34 @@ if __name__ == '__main__':
         print('[FAIL]\nFailed to get game token with:', repr(e))
         exit(1)
 
-    # Launching the game!
-    print('Launching the game... ', end='', flush=True)
     exe_path = os.path.join(game_manifest['InstallLocation'],
                             game_manifest['LaunchExecutable'])
+
+    params = [exe_path,
+              '-AUTH_LOGIN=unused',
+              f'-AUTH_PASSWORD={game_token["code"]}',
+              '-AUTH_TYPE=exchangecode',
+              f'-epicapp={game_manifest["AppName"]}',
+              '-epicenv=Prod',
+              '-EpicPortal',
+              f'-epicusername={auth_data["displayName"]}',
+              f'-epicuserid={auth_data["account_id"]}',
+              '-epiclocale=en']
+
+    # add params from manifest (required for e.g. Fornite)
+    if game_manifest.get('LaunchCommand', ''):
+        print('Adding "LaunchCommand" from manifest...')
+        params.extend(shlex.split(game_manifest['LaunchCommand']))
+
+    # allow passing params through to the game
+    if extra:
+        print('Adding extra params:', ', '.join(extra))
+        params.extend(extra)
+
     try:
-        subprocess.Popen([exe_path,
-                          game_manifest.get('LaunchCommand', ''),  # this is gnarly, but works!
-                          '-AUTH_LOGIN=unused',
-                          f'-AUTH_PASSWORD={game_token["code"]}',
-                          '-AUTH_TYPE=exchangecode',
-                          f'-epicapp={game_manifest["AppName"]}',
-                          '-epicenv=Prod',
-                          '-EpicPortal',
-                          f'-epicusername={auth_data["displayName"]}',
-                          f'-epicuserid={auth_data["account_id"]}',
-                          '-epiclocale=en'],
-                         cwd=game_manifest['InstallLocation'])
+        # Launching the game!
+        print('Launching the game... ', end='', flush=True)
+        subprocess.Popen(params, cwd=game_manifest['InstallLocation'])
         print('[OK!]')
     except Exception as e:
         print('[FAIL]\nFailed to launch game:', repr(e))

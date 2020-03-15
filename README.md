@@ -32,6 +32,8 @@ optional arguments:
 
 `APP_NAME` is the codename the game is using on EGS, *not* the actual name of the game. For instance, for Diabotical this is `Honeycreeper`.
 
+Any additional arguments will be passed on to the game itself.
+
 You can get a list of all installed EGS games and their codenames by simply running `rktlnch.exe --list-games` 
 
 **NOTE:** Do not run EGS and rktlnch at the same time! Since rktlnch will read and write from/to the EGS config this can cause issues (e.g. invalidating your login session, requiring you to login again next time you start EGS).

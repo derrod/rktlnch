@@ -19,8 +19,10 @@ Usage is fairly simple:
 ```
 usage: rktlnch.exe [-h] (--launch APP_NAME | --list-games)
                    [--skip-version-check]
+                   [--override-username USER_NAME_OVERRIDE]
 
-Launch an EGS game without EGS.
+Launch an EGS game without EGS. Any extra parameters will be used as extra
+launch parameters for the game.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -28,6 +30,8 @@ optional arguments:
   --list-games          List installed app names and their corresponding game
                         names.
   --skip-version-check  Skip version check
+  --override-username USER_NAME_OVERRIDE
+                        Override epic username
 ```
 
 `APP_NAME` is the codename the game is using on EGS, *not* the actual name of the game. For instance, for Diabotical this is `Honeycreeper`.

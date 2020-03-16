@@ -20,7 +20,7 @@ def exit(code=0):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Launch an EGS game without EGS.')
+    parser = argparse.ArgumentParser(description='Launch an EGS game without EGS. Any extra parameters will be used as extra launch parameters for the game.')
 
     group = parser.add_mutually_exclusive_group()
     group.required = True
@@ -31,6 +31,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--skip-version-check', dest='skip_version_check', action='store_true',
                         default=False, help='Skip version check')
+    parser.add_argument('--override-username', dest='user_name_override', action='store',
+                        help='Override epic username')
 
     args, extra = parser.parse_known_args()
 
@@ -118,6 +120,14 @@ if __name__ == '__main__':
         print('[FAIL]\nFailed to get game token with:', repr(e))
         exit(1)
 
+    # Override user name
+    if args.user_name_override:
+        user_name = args.user_name_override.strip()
+        print(f'Overriding username with "{user_name}"')
+    else:
+        user_name = auth_data["displayName"]
+
+    # Launching the game!
     exe_path = os.path.join(game_manifest['InstallLocation'],
                             game_manifest['LaunchExecutable'])
 
@@ -128,7 +138,7 @@ if __name__ == '__main__':
               f'-epicapp={game_manifest["AppName"]}',
               '-epicenv=Prod',
               '-EpicPortal',
-              f'-epicusername={auth_data["displayName"]}',
+              f'-epicusername={user_name}',
               f'-epicuserid={auth_data["account_id"]}',
               '-epiclocale=en']
 

@@ -6,7 +6,7 @@ import subprocess
 import json
 import os
 import shlex
-from sys import exit as _exit
+from sys import exit as _exit, version_info
 
 from base64 import b64decode, b64encode
 
@@ -33,6 +33,10 @@ if __name__ == '__main__':
                         default=False, help='Skip version check')
     parser.add_argument('--override-username', dest='user_name_override', action='store',
                         help='Override epic username')
+
+    if version_info.minor >= 8:
+        parser.add_argument('--dry-run', dest='just_print', action='store_true',
+                            default=False, help='Do not launch, just print the command line and exit.')
 
     args, extra = parser.parse_known_args()
 
@@ -151,6 +155,10 @@ if __name__ == '__main__':
     if extra:
         print('Adding extra params:', ', '.join(extra))
         params.extend(extra)
+
+    if version_info.minor >= 8 and args.just_print:
+        print('Launch command:', shlex.join(params))
+        exit(0)
 
     try:
         # Launching the game!

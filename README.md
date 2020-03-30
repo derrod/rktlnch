@@ -17,21 +17,19 @@ Many games work offline and don't need this, but for those that have online func
 
 Usage is fairly simple:
 ```
-usage: rktlnch.exe [-h] (--launch APP_NAME | --list-games)
-                   [--skip-version-check]
-                   [--override-username USER_NAME_OVERRIDE]
+usage: rktlnch.exe [-h] (--launch APP_NAME | --list-games) [--skip-version-check]
+                   [--override-username USER_NAME_OVERRIDE] [--dry-run]
 
-Launch an EGS game without EGS. Any extra parameters will be used as extra
-launch parameters for the game.
+Launch an EGS game without EGS. Any extra parameters will be used as extra launch parameters for the game.
 
 optional arguments:
   -h, --help            show this help message and exit
   --launch APP_NAME     Launch game with codename APP_NAME
-  --list-games          List installed app names and their corresponding game
-                        names.
+  --list-games          List installed app names and their corresponding game names.
   --skip-version-check  Skip version check
   --override-username USER_NAME_OVERRIDE
                         Override epic username
+  --dry-run             Do not launch, just print the command line and exit.
 ```
 
 `APP_NAME` is the codename the game is using on EGS, *not* the actual name of the game. For instance, for Diabotical this is `Honeycreeper`.

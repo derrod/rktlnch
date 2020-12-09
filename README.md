@@ -1,3 +1,7 @@
+## Deprecation Notice
+
+`rktlnch` has been unmaintained since around March 2020 due to its functionality being integrated into [legendary](https://github.com/derrod/legendary). While it still works as of December 2020 it does not support certain features (e.g. ownership verification tokens) and may stop working in the future and will likely not be fixed if that happens.
+
 # rktlnch ("Rocket Launch")
 ### An Epic Game Store-less Epic Game Store game launcher
 
